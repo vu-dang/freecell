@@ -1,0 +1,4 @@
+solver/*.dSYM
+solver/*_test
+solver/visualizer
+solver/solver

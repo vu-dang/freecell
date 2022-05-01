@@ -310,7 +310,7 @@ string Beam::PrefixSearch(const Node& layout, vector<Move> moves) {
     }
     start += options.auto_play ? 10 : 20;
   } while (start < moves.size());
-  if (beam_id_ == 0) printf("%d:%s\n", seed_, coded_solution.c_str());
+  //if (beam_id_ == 0) printf("%d:%s\n", seed_, coded_solution.c_str());
   return coded_solution;
 }
 
@@ -332,8 +332,31 @@ const char* solve(int seed, int beam_size, int auto_play) {
   return solution.c_str();
 }
 }
+// ./solver [from] [to] [max_beam]
+// find winnable games
+int main(int argc, char *argv[]) {
+  int minGame = atoi(argv[1]);
+  int maxGame = atoi(argv[2]);
+  int beamSize = atoi(argv[3]);
+  for (int i = minGame; i <= maxGame; i++) {
+    const char* result = "";
+    for (int b = 1; b<=beamSize; b++) {
+      result = solve(i,1<<b,1);
+      if (strlen(result) > 0) {
+        printf("%d,%d,%d\n", i, b,int(strlen(result)/2));
+        break;
+      }
+    }
+    if (strlen(result) == 0) {
+        printf("%d,%d\n", i, 0);
+    }
+  }
+  
 
-int main(int argc, char* argv[]) {
+  
+}
+
+int main2(int argc, char* argv[]) {
   options = Options(argc, argv);
 
   Node::Initialize();
